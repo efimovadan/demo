@@ -4,6 +4,7 @@ import javafx.animation.FadeTransition
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.event.EventHandler
+import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.control.Label
 import javafx.scene.image.Image
@@ -88,6 +89,7 @@ class Toast {
         windows.scene = Scene(root, width, height)
         windows.scene.fill = Color.TRANSPARENT
 
+        root.padding = Insets(3.0, 3.0, 3.0, 3.0)
         root.style = "-fx-background-color: #ffffff"
         root.setPrefSize(width, height)
 
