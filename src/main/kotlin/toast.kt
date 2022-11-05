@@ -10,6 +10,7 @@ import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.control.Label
 import javafx.scene.image.Image
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
@@ -22,6 +23,7 @@ import javafx.stage.StageStyle
 import javafx.util.Duration
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
+import javafx.scene.transform.Translate
 import java.nio.file.Paths
 
 enum class ImageStyle {
@@ -125,28 +127,29 @@ class Toast {
             return
         }
 
-        val iconBorder = if (config.imageType == ImageStyle.RECTANGLE) {
+        val iconBorder = if (config.imageType == ImageStyle.CIRCLE) {
             Rectangle(150.0, 150.0)
         }
         else {
-            Circle(50.0, 50.0, 50.0)
+            Circle(75.0, 75.0, 75.0)
         }
         iconBorder.setFill(ImagePattern(Image(config.image)))
         box.children.add(iconBorder)
     }
 
     private fun openAnimation() {
-        val anim = FadeTransition(Duration.millis(1500.0), root)
 //        val anim = TranslateTransition(Duration.millis(1500.0), root)
+        val anim = FadeTransition(Duration.millis(1500.0), root)
+//        val animation = if (config.animation == AnimationType.TRANSLATE) {
+//            Translate(7.0)
+//        }
         anim.fromValue = 0.0
         anim.toValue = config.alpha
         anim.cycleCount = 1
         anim.play()
-//        val firstPos = if (position == Position.RIGHT_TOP) {
-//
-//        }
     }
     private fun closeAnimation() {
+        //val anim = TranslateTransition(Duration.millis(1500.0), root)
         val anim = FadeTransition(Duration.millis(1500.0), root)
         anim.fromValue = config.alpha
         anim.toValue = 0.0
