@@ -1,6 +1,8 @@
 package com.example.demo
 
+import javafx.animation.Animation
 import javafx.animation.FadeTransition
+import javafx.animation.TranslateTransition
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.event.EventHandler
@@ -18,14 +20,24 @@ import javafx.scene.shape.Rectangle
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 import javafx.util.Duration
-import java.nio.file.Paths
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
+import java.nio.file.Paths
 
 enum class ImageStyle {
-    CIRCLE, RECTANGLE
+    CIRCLE,
+    RECTANGLE
 }
-
+enum class AnimationType {
+    TRANSITION,
+    TRANSLATE
+}
+enum class Position {
+    RIGHT_BOTTOM,
+    RIGHT_TOP,
+    LEFT_BOTTOM,
+    LEFT_TOP
+}
 class Config {
     var alpha = 0.9
     var openTime = 7000.0
@@ -34,7 +46,9 @@ class Config {
     var message = "MESSAGE"
     var appName = "APP NAME"
     var image = "https://avatars.mds.yandex.net/i?id=ee0a8cd0c69a411b7fee131fde2b4980-3732926-images-thumbs&n=13"
-    var soundEffect = "C:\\Users\\pen\\IdeaProjects\\laba\\demo\\src\\main\\resources\\new_message_tone.wav"
+    var soundEffect = "C:/Users/pen/IdeaProjects/laba/demo/src/main/resources/new_message_tone.wav"
+    var animation = AnimationType.TRANSLATE
+    var position = Position.RIGHT_BOTTOM
 }
 
 class Toast {
@@ -42,8 +56,6 @@ class Toast {
     private val windows = Stage()
     private var root = BorderPane()
     private var box = HBox()
-
-
     class Builder {
         private var config = Config()
 
@@ -66,7 +78,6 @@ class Toast {
             var toast = Toast()
             toast.config = config
             toast.build()
-
             return toast
         }
     }
@@ -84,14 +95,14 @@ class Toast {
         windows.x = 100.0
         windows.y = 100.0
         val width = 300.0
-        val height = 150.0
+        val height = 175.0
 
         windows.scene = Scene(root, width, height)
         windows.scene.fill = Color.TRANSPARENT
 
-        root.padding = Insets(3.0, 3.0, 3.0, 3.0)
-        root.style = "-fx-background-color: #ffffff"
+        root.style = "-fx-background-color: #c63c57"
         root.setPrefSize(width, height)
+        root.padding = Insets(10.0, 10.0, 10.0, 10.0)
 
         setImage()
 
@@ -104,7 +115,9 @@ class Toast {
         box.children.add(vbox)
         root.center = box
 
-
+        title.style = "-fx-font-style: oblique"
+        message.style = "-fx-font-style: italic"
+        appName.style = "-fx-font-style: normal"
     }
 
     private fun setImage() {
@@ -124,10 +137,14 @@ class Toast {
 
     private fun openAnimation() {
         val anim = FadeTransition(Duration.millis(1500.0), root)
+//        val anim = TranslateTransition(Duration.millis(1500.0), root)
         anim.fromValue = 0.0
         anim.toValue = config.alpha
         anim.cycleCount = 1
         anim.play()
+//        val firstPos = if (position == Position.RIGHT_TOP) {
+//
+//        }
     }
     private fun closeAnimation() {
         val anim = FadeTransition(Duration.millis(1500.0), root)
@@ -157,8 +174,6 @@ class Toast {
     }
 
 }
-
-
 class SomeClass: Application() {
     override fun start(p0: Stage?) {
         var toast = Toast.Builder()
