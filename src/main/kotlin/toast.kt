@@ -212,7 +212,7 @@ class Toast {
                 }
             }
 
-            ButtonsQuantity.TWO -> {
+            else -> {
                 when (config.firstButtonType) {
                     ButtonType.CLOSE -> buttons.children.add(closeButton())
                     else -> buttons.children.add(replyButton())
